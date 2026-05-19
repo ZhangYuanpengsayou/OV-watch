@@ -18,6 +18,7 @@
 #include "lcd_init.h"
 #include "CST816.h"
 #include "DataSave.h"
+#include "WatchFaceManager.h"
 
 // ui
 //gui
@@ -145,6 +146,9 @@ void HardwareInitTask(void *argument)
       }
     }
 
+
+    // watch face manager (after EEPROM ready)
+    WatchFace_Init();
 
     // BLE
     HWInterface.BLE.Init();

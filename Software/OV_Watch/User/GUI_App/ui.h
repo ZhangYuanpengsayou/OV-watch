@@ -13,6 +13,7 @@ extern "C" {
 #include "stdio.h"
 
 #include "../Func/Inc/PageManager.h"
+#include "../Func/Inc/WatchFaceManager.h"
 
 LV_FONT_DECLARE(ui_font_Cuyuan18);
 LV_FONT_DECLARE(ui_font_Cuyuan20);

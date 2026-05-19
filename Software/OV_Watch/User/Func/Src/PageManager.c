@@ -1,5 +1,5 @@
 #include "../Inc/PageManager.h"
-#include "../../GUI_App/Screens/Inc/ui_HomePage.h"
+#include "../Inc/WatchFaceManager.h"
 #include "../../GUI_App/Screens/Inc/ui_MenuPage.h"
 
 PageStack_t PageStack;
@@ -65,7 +65,7 @@ void Page_Back(void) {
 
     if (page_stack_is_empty(&PageStack)) {
         // 如果栈为空，入栈并切换到MenuPage
-        page_stack_push(&PageStack, &Page_Home);
+        page_stack_push(&PageStack, WatchFace_GetCurrentPage());
         page_stack_push(&PageStack, &Page_Menu);
         Page_Menu.init();
         lv_scr_load_anim(*Page_Menu.page_obj, LV_SCR_LOAD_ANIM_MOVE_RIGHT, 100, 0, true);
@@ -129,7 +129,8 @@ void Page_Load(Page_t *newPage) {
  */
 void Pages_init(void) {
     page_stack_init(&PageStack);
-    page_stack_push(&PageStack, &Page_Home);
-    Page_Home.init();
-    lv_disp_load_scr(*Page_Home.page_obj);
+    Page_t *wf = WatchFace_GetCurrentPage();
+    page_stack_push(&PageStack, wf);
+    wf->init();
+    lv_disp_load_scr(*wf->page_obj);
 }

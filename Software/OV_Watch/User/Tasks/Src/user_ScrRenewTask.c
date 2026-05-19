@@ -6,6 +6,7 @@
 #include "lvgl.h"
 #include "ui_HomePage.h"
 #include "ui_MenuPage.h"
+#include "WatchFaceManager.h"
 
 
 /* Private typedef -----------------------------------------------------------*/
@@ -53,6 +54,11 @@ void ScrRenewTask(void *argument)
   				//sensor sleep
 				LSM303DLH_Sleep();
 				// SPL_Sleep();
+			}
+			//key2 long press - switch watch face
+			else if(keystr == 3)
+			{
+				WatchFace_SwitchToNext();
 			}
 		}
 		osDelay(10);

@@ -2,6 +2,9 @@
 #include "delay.h"
 #include "user_TasksInit.h"
 
+static uint16_t key_hold_time = 0;
+static uint8_t  key_current = 0;
+
 void Key_Port_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
@@ -48,21 +51,42 @@ uint8_t KeyScan(uint8_t mode)
 			key_down = 1;
 		if(KEY2)
 			key_down = 2;
-		if(key_down) 
+		if(key_down)
+		{
 			key_up = 0;
+			key_current = key_down;
+			key_hold_time = 0;
+		}
 	}
 
 	if ( key_down && (KEY1 && (!KEY2)) )
 	{
 		osDelay(3);//ensure the key
-		if(KEY1 && (!KEY2)) 
+		if(KEY1 && (!KEY2))
 		{
 			key_up = 1;
 			keyvalue = key_down;
 			key_down = 0;
+			key_current = 0;
+			key_hold_time = 0;
 		}
 	}
 
+	if(key_down)
+	{
+		key_hold_time++;
+	}
+
 	return keyvalue;
+}
+
+uint8_t KeyScan_GetCurrentKey(void)
+{
+	return key_current;
+}
+
+uint16_t KeyScan_GetHoldTime(void)
+{
+	return key_hold_time;
 }
 
